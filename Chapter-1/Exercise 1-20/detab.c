@@ -13,7 +13,7 @@ while (_getline(line,MAXSIZE) > 0) {
       if(line[i]=='\t') {
         /*calculate the tab stop*/
         for (int j=0;j<(tabSize-(i%tabSize));j++)
-        //putchar('_');
+        /*for testing : putchar('_');*/
         putchar(' ');
       }
       else putchar(line[i]);
