@@ -23,6 +23,16 @@ int getop(char s[]) {
     i = 0;
     int next;
 
+    /* to handle sin */
+    if (c == 'S') {
+        next = getch();
+        if (next == 'I' && (next = getch() == 'N'))
+            return 'S';
+        else {
+            ungetch(next);
+            return c;
+        }
+    }
     /* to handle negative numbers */
     if (c == '-') {
         next = getch();

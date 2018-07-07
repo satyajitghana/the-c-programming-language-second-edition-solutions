@@ -45,6 +45,16 @@ int main() {
                 op2 = pop();
                 push(fmod(pop(), op2));
                 break;
+            case '^':
+                op2 = pop();
+                push(pow(pop(), op2));
+                break;
+            case 'e':
+                push(exp(pop()));
+                break;
+            case 'S':
+                push(sin(pop()));
+                break;
             case '?':
                 printf("\t%.8g\n", gettop());
                 break;
@@ -80,6 +90,9 @@ void help() {
             "+ : ADD\n"
             "* : MULTIPLY\n"
             "- : SUBTRACT\n"
+            "^ : POWER\n"
+            "e : EXPONENTIAL\n"
+            "SIN : SINE\n"
             "/ : DIVIDE\n"
             "% : REMAINDER\n"
             "? : PRINT TOP\n"
@@ -88,4 +101,5 @@ void help() {
             "H : HELP !! :O\n"
             "Q : QUIT\n"
             "\n");
+ 
 }
