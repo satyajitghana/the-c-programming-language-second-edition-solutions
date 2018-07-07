@@ -32,7 +32,7 @@ int getop(char s[]) {
     i = 0;
     int next;
 
-        /* to handle sin */
+    /* to handle sin first*/
     if (c == 'S') {
         next = getch();
         if (next == 'I' && (next = getch() == 'N'))
@@ -43,6 +43,7 @@ int getop(char s[]) {
         }
     }
     
+    /*handle the variables later*/
     if (isupper(c)) {
         return c;
     }

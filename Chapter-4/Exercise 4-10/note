@@ -1,0 +1,7 @@
+gcc -lm *.c
+
+to save a variable print and save it,
+as in 
+>> 2 +M
+will save 2 to M, and then
+>> 2 M +

@@ -2,7 +2,7 @@
 #include <string.h>
 #define BUFSIZE 100
 
-char buf[BUFSIZE]; /* buffer for ungetch */
+int buf[BUFSIZE]; /* buffer for ungetch */
 int bufp = 0; /* buffer pointer (not a real pointer) */
 
 int getch(void) /* get a (possibly pushed back) character */ {
