@@ -54,6 +54,10 @@ int main() {
                 op2 = pop();
                 push(fmod(pop(), op2));
                 break;
+            case '^':
+                op2 = pop();
+                push(pow(pop(), op2));
+                break;
             case '?':
                 printf("\t%.8g\n", gettop());
                 break;
@@ -69,7 +73,7 @@ int main() {
             case 'Q':
                 return 0;
             case '\n':
-                printf("\t%.8g\n", pop());
+                printf("ANS :\t%.8g\n", pop());
                 printf(">> ");
                 break;
             default :
