@@ -1,0 +1,11 @@
+gcc -lm *.c
+
+# to use the variable stuff
+# 2 2 + +M
+# this will do (2 + 2) and store the result in M
+#
+# the ANS is always stores in variable A
+# top copy ans to a variable use A +<VARIABLE>
+#
+# all variables are upper case, Q is used for quitting and hence cannot be used for a variables
+# some other upper cases are also used up.
