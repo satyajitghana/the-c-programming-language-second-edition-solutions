@@ -1,13 +1,11 @@
 #include <ctype.h>
 #include <stdio.h>
-
-int getch(void);
-void ungetch(int);
+#include "buffer.h"
 
 /* get an integer from input into *pn */
 
 int getint(int *pn) {
-    int c, sign = 0;
+    int c, sign, rsign = -1;
     while (isspace(c = getch()))
         ;
     /* if its not a digit */
@@ -16,14 +14,16 @@ int getint(int *pn) {
         return 0;
     }
     sign = (c == '-') ? -1 : 1;
-    if (c == '+' || c == '-')
+    if (c == '+' || c == '-') {
+        rsign = 0;
         c = getch();
+    }
     
     /* if '+' or '-' is not followed by a digit then push it back to input*/
     if (!isdigit(c)) {
         ungetch(c);
         /* if the sign was read */
-        if (sign != 0) ungetch((sign == -1) ? '-': '+');
+        if (rsign != -1) ungetch((sign == -1) ? '-': '+');
         return 0;
     }
 
