@@ -3,8 +3,10 @@
 #define log(d) printf(#d " : %d\n", d);
 
 int main() {
-    int num;
-    if (getint(&num))
+    int num, r;
+    if (r = getint(&num)) {
         log(num);
+        log(r);
+    }
     return 0;
 }
