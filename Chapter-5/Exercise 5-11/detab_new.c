@@ -1,58 +1,42 @@
 #include <stdio.h>
 #define MAXLINE 1000
+#define MAXTABLIST 20
 #define TABSTOP 5
-
-#define ds(s) printf(#s " : %s\n", s); /* debug string      */
-#define dc(c) printf(#c " : %c\n", c); /* debug character   */
-#define di(d) printf(#d " : %d\n", d); /* debug integer     */
 
 int _getline(char line[], int maxline);
 double atof(char *s);
 
+int tablist[MAXTABLIST] = { 5 };
+
 int main(int argc, char **argv) {
     int len;
     char line[MAXLINE], longest[MAXLINE];
-    int max = 0;
-    int tabstop = 5, start = -1;
-    int c;
-    char *name = *argv;
-    while (--argc > 0) {
-            //dc(c);
-            switch(c = **++argv) {
-                case '+':
-                    //ds(*argv+1);
-                    tabstop = (int) atof(*argv+1);
-                    break;
-                case '-':
-                    //ds(*argv+1);
-                    start = (int) atof(*argv+1);
-                    break;
-                default :
-                    printf("%s: illegal option %c\n", name, c);
-                    argc = -1;
-                    break;
-            }
-        //printf("%s\n", *++argv);
+    int tablistsize = (argc > 1) ? 0 : 1;
+    while (--argc > 0 && **++argv) {
+        //printf("%d\n", (int) atof(*argv));
+        tablist[tablistsize++] = (int) atof(*argv);
     }
-    //printf(" #%d# ", argc);
-    /* di(tabstop);
-    di(start); */
-    if (argc != 0) {
-        printf("Usage : %s -m +n\n", name);
-        return 0;
-    }
+
+    /* for (int i = 0 ; i < tablistsize ; i++)
+        printf("%d ", tablist[i]); */
+
+    //return 0;
+    int i_tab = 0;
     while (_getline(line, MAXLINE) > 0) {
         int i = 0, m = 0, flag = 0;
-        while (i < start && line[i] != '\0') {
-            putchar(line[i++]);
-            //++i;
-        }
         while (line[i] != '\0') {
             if (line[i] == '\t') {
-                int tab = m%tabstop;
-                for (int j = 0 ; j < (tabstop - tab) ; j++) {
+                int tab = m%tablist[i_tab%tablistsize];
+                //printf(" *%d* ", tab);
+                for (int j = 0 ; j < (tablist[i_tab%tablistsize] - tab) ; j++) {
                     putchar('_'); // for testing
                     //putchar(' ');
+                    if (m > tablist[i_tab%tablistsize]) {
+                        //printf(" c ");
+                        i_tab++;
+                        int tab = m%tablist[i_tab%tablistsize];
+                    }
+                    //printf(" *%d* ", m);
                     m++;
                     flag = 1;
                 }
