@@ -1,0 +1,5 @@
+gcc -lm *.c -o expr
+
+./expr 2 3 4 + x
+OUTPUT:
+    ANS :   14
