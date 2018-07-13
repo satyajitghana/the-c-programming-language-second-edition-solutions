@@ -10,11 +10,13 @@ char *lineptr[MAXLINES];
 void _qsort(void *lineptr[], int left, int right, int (*comp)(void *, void *), int order);
 
 int numcmp(char *, char *);
+int strcmpi(char *, char *);
 
 int main(int argc, char **argv) {
     int numeric = 0;
     //int reverse = -1;
     int order = 1;
+    int ignore_case = 0;
     char *name = *argv;
     char c;
     /*if (argc > 1 && strcmp(*++argv, "-n") == 0) 
@@ -28,6 +30,9 @@ int main(int argc, char **argv) {
                     case 'r':
                         order *= -1;
                         break;
+                    case 'f':
+                        ignore_case = 1;
+                        break;
                     default:
                         printf("%s: illegal character %c\n", name, c);
                         argc = -1;
@@ -37,13 +42,14 @@ int main(int argc, char **argv) {
     if (argc != 0) {
         printf("Usage: %s -n -r\n"
                 "n: numeric sort\n"
-                "r: reverse sort\n", name);
+                "r: reverse sort\n"
+                "f : fold (ignore case)\n", name);
         return 0;
     }
     //return 0;
     int nlines;
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
-        _qsort((void **) lineptr, 0, nlines-1, (int (*)(void*, void*))(numeric ? numcmp : strcmp), order);
+        _qsort((void **) lineptr, 0, nlines-1, (int (*)(void*, void*))(numeric ? numcmp : ((ignore_case) ? strcmpi : strcmp)), order);
         writelines(lineptr, nlines);
         return 0;
     } else {
@@ -81,6 +87,26 @@ int numcmp(char *s1, char *s2) {
         return 1;
     else
         return 0;
+}
+
+int strcmpi(char *s1, char *s2) {
+    void strupr(char *);
+
+    char v1[1024], v2[1024];
+    strcpy(v1, s1);
+    strupr(v1);
+    strcpy(v2, s2);
+    strupr(v2);
+
+    return strcmp(v1, v2);
+}
+
+void strupr(char *s) {
+    while(*s != '\0') {
+        if (*s >= 'a' && *s <= 'z')
+            *s = 'A' + (*s-'a');
+        s++;
+    }
 }
 
 void swap(void *v[], int i, int j) {
