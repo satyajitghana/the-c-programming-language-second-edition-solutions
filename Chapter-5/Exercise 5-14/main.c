@@ -7,18 +7,41 @@
 #define MAXLINES 5000
 char *lineptr[MAXLINES];
 
-void _qsort(void *lineptr[], int left, int right, int (*comp)(void *, void *));
+void _qsort(void *lineptr[], int left, int right, int (*comp)(void *, void *), int order);
 
 int numcmp(char *, char *);
 
 int main(int argc, char **argv) {
     int numeric = 0;
-    if (argc > 1 && strcmp(*++argv, "-n") == 0) 
-        numeric = 1;
-
+    //int reverse = -1;
+    int order = 1;
+    char *name = *argv;
+    char c;
+    /*if (argc > 1 && strcmp(*++argv, "-n") == 0) 
+        numeric = 1;*/
+    while (--argc > 0 && **++argv == '-') {
+        while (c = *++(*argv))
+                switch(c) {
+                    case 'n':
+                        numeric = 1;
+                        break;
+                    case 'r':
+                        order *= -1;
+                        break;
+                    default:
+                        printf("%s: illegal character %c\n", name, c);
+                        argc = -1;
+                        break;
+                    }
+    }
+    if (argc != 0) {
+        printf("Usage: %s -n -r\n", name);
+        return 0;
+    }
+    //return 0;
     int nlines;
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
-        _qsort((void **) lineptr, 0, nlines-1, (int (*)(void*, void*))(numeric ? numcmp : strcmp));
+        _qsort((void **) lineptr, 0, nlines-1, (int (*)(void*, void*))(numeric ? numcmp : strcmp), order);
         writelines(lineptr, nlines);
         return 0;
     } else {
@@ -29,7 +52,7 @@ int main(int argc, char **argv) {
 }
 
 /* qsort: sort v[left]...v[right] into increasing order */
-void _qsort(void *v[], int left, int right, int (*comp)(void *, void *)) {
+void _qsort(void *v[], int left, int right, int (*comp)(void *, void *), int order) {
     int i, last;
     void swap(void *v[], int, int);
 
@@ -37,11 +60,11 @@ void _qsort(void *v[], int left, int right, int (*comp)(void *, void *)) {
     swap(v, left, (left + right) / 2);
     last = left;
     for (i = left + 1 ; i <= right ; i++)
-        if ((*comp)(v[i], v[left]) < 0)
+        if ((order)*(*comp)(v[i], v[left]) < 0)
             swap(v, ++last, i);
     swap(v, left, last);
-    _qsort(v, left, last - 1, comp);
-    _qsort(v, last + 1, right, comp);
+    _qsort(v, left, last - 1, comp, order);
+    _qsort(v, last + 1, right, comp, order);
 }
 
 /* numcmp: compare s1 and s2 numerically */
