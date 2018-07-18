@@ -30,8 +30,11 @@ int getword(char *word, int lim) {
     char *w = word;
 
     /* skip the whitespaces */
-    while (isspace(c = getch()))
+    /*while (isspace(c = getch()))
+        ;*/
+    while ((c = getch()) == ' ' || c == '\t')
         ;
+    //printf(" #%d# ", word[0]);
     if (c != EOF)
         *w++ = c;
     if (!isalpha(c)) {

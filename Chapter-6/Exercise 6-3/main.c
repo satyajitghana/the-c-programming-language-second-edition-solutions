@@ -4,6 +4,7 @@
 #include <string.h>
 #include "tree.h"
 #include "io.h"
+//#include "itoa.h"
 
 #define MAXWORD 100
 
@@ -19,8 +20,9 @@ int main(int argc, char **argv) {
     root = NULL;
     while (getword(word, MAXWORD) != EOF) {
         if (isalpha(word[0]))
-            root = addtree(root, word, itoa(lnum));
+            root = addtree(root, word, lnum);
        
+        //printf(" *%s* ", word);
         if (word[0] == '\n')
             lnum++;
     }
